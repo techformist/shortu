@@ -6,9 +6,80 @@
     <title>Shortu</title>
     <link rel="stylesheet" href="https://unpkg.com/mvp.css" />
     <link rel="stylesheet" href="./assets/custom.css" />
+    <script
+      src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
+      defer
+    ></script>
   </head>
-  <body>
+  <body x-data="process()">
     <header></header>
-    <h1 class="title">Wow</h1>
+    <h1 class="title">Shortu URL Shortener</h1>
+    <div class="subtitle">
+      Input the long URL, hit "Shorten" and see magic happen.
+    </div>
+
+    <form class="input-group">
+      <input type="text" placeholder="Provide the long URL" x-model="url" />
+      <br />
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Desired short url phrase (optional)"
+        x-model="slug"
+      />
+      <button x-on:click.prevent="shortenURL()">Submit</button>
+      <div x-show="error" x-on:click=" error = ''">
+        <span x-text="error" class="error"></span>❌
+      </div>
+    </form>
+
+    <div id="results" x-show="data['shorturl']" class="results">
+      <div class="label">Your short URL:</div>
+      <h3 style="display: inline-block;" x-text="data.shorturl"></h3>
+    </div>
+
+    <script>
+      function process() {
+        return {
+          error: "",
+          data: {},
+          url: "",
+          slug: "",
+          shortenURL: async function () {
+            try {
+              console.log("this.url", this.url);
+              const result = await fetch(`/new/`, {
+                method: "POST",
+
+                headers: {
+                  Accept: "application/json",
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ url: this.url, slug: this.slug }),
+              });
+
+              const resJson = await result.json();
+              console.log("resJson: ", resJson);
+
+              if (result.ok) {
+                console.log("result.ok: ", result.ok);
+
+                this.data = resJson;
+                this.error = "";
+              } else {
+                console.log("in error");
+                this.data = {};
+                this.error = resJson["message"];
+              }
+              console.log("data: ", this.data);
+              console.log("error: ", this.error);
+            } catch (e) {
+              console.log("error", e);
+              this.error = e.message;
+            }
+          },
+        };
+      }
+    </script>
   </body>
 </html>
