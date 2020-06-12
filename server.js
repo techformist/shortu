@@ -18,6 +18,7 @@ app.use(express.json());
 app.use(express.static("./public"));
 
 app.get("/:id", (req, res) => {
+  res.json("redirecting now");
   console.log("redirecting");
 });
 
