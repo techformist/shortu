@@ -3,6 +3,7 @@ const cors = require("cors");
 const helmet = require("helmet");
 const yup = require("yup");
 
+// prepare db. Create the lone table if not already present
 const sqlite3 = require("sqlite3");
 const db = new sqlite3.Database("./db/data.sqlite", (err) => {
   if (err) throw err;
@@ -18,16 +19,21 @@ const db = new sqlite3.Database("./db/data.sqlite", (err) => {
 
 const app = express();
 
+// middleware
 app.use(helmet());
 app.use(cors());
 app.use(express.json());
-
 app.use(express.static("./public"));
+
+// schema defn.
 const schema = yup.object().shape({
   url: yup.string().url().required(),
   slug: yup.string(),
 });
 
+//-----------------------------------------------
+// Request handlers
+//-----------------------------------------------
 app.post("/new", async (req, res, next) => {
   let { url, slug } = req.body;
   console.log("req.body: ", req.body);
@@ -84,18 +90,16 @@ app.get("/:id", (req, res) => {
   });
 });
 
-app.post("/error", (req, res) => {
-  res;
-});
-
 app.post("/*", (req, res) => {
-  res.json({ message: "It works" });
+  res.json({ message: "Hello, world" });
 });
 
+// error handling
 app.use((err, req, res, next) => {
   res.status(500).json({ message: err.message });
 });
 
+// listener
 app.listen(3000, () => {
-  console.log("Listening on port 3000");
+  console.log("Listening on port 3000.");
 });

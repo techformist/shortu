@@ -1,37 +1,25 @@
-html {
-  margin: 0;
-  padding: 1em;
-  box-sizing: border-box;
-}
-
 body {
-  font-family: sans-serif;
   text-align: center;
 }
 
-.title {
-  padding-bottom: 10px;
-}
-
 .subtitle {
-  padding-bottom: 2rem;
+  padding-bottom: 3rem;
   color: grey;
   font-size: 80%;
 }
 
 .input-group {
-  width: 100%;
-  border: 5px;
-  border-color: cornflowerblue;
+  padding-top: 2em;
+  padding-bottom: 2em;
   text-align: center;
   margin: auto;
+  background-color: whitesmoke;
 }
 
 .label {
   text-align: center;
   color: grey;
   font-size: 80%;
-  display: block;
 }
 
 input {
@@ -42,7 +30,7 @@ input {
 }
 
 button {
-  margin-top: 3rem;
+  margin-top: 2rem;
 }
 
 .error {
@@ -55,5 +43,4 @@ button {
   text-align: center;
   padding-top: 1em;
   padding-bottom: 1em;
-  min-width: 90%;
 }
