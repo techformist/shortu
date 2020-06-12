@@ -1,0 +1,14 @@
+html {
+  margin: 0;
+  padding: 1em;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+  text-align: center;
+}
+
+.title {
+  padding-bottom: 2rem;
+}
